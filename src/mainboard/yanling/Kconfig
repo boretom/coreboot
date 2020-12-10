@@ -1,0 +1,15 @@
+if VENDOR_YANLING
+
+choice
+	prompt "Mainboard model"
+
+source "src/mainboard/yanling/*/Kconfig.name"
+
+endchoice
+
+source "src/mainboard/yanling/*/Kconfig"
+
+config MAINBOARD_VENDOR
+	default "Yanling"
+
+endif # VENDOR_YANLING

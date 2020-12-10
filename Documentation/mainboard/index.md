@@ -179,3 +179,7 @@ The boards in this section are not real mainboards, but emulators.
 ## UP
 
 - [Squared](up/squared/index.md)
+
+## Yanling
+
+- [YL-KBR6L](yanling/yl-kbr6l.md)
