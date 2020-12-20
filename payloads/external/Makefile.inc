@@ -99,6 +99,27 @@ bootorder-file := $(strip $(CONFIG_SEABIOS_BOOTORDER_FILE))
 bootorder-type := raw
 endif
 
+# add a SeaBIOS boot-menu-key file
+ifneq ($(strip $(CONFIG_SEABIOS_BOOTMENU_KEY_FILE)),)
+cbfs-files-y += etc/boot-menu-key
+etc/boot-menu-key-file := $(strip $(CONFIG_SEABIOS_BOOTMENU_KEY_FILE))
+etc/boot-menu-key-type := raw
+endif
+
+# add a SeaBIOS boot-menu-wait file
+ifneq ($(strip $(CONFIG_SEABIOS_BOOTMENU_WAIT_FILE)),)
+cbfs-files-y += etc/boot-menu-wait
+etc/boot-menu-wait-file := $(strip $(CONFIG_SEABIOS_BOOTMENU_WAIT_FILE))
+etc/boot-menu-wait-type := raw
+endif
+
+# add a SeaBIOS boot-menu-message file
+ifneq ($(strip $(CONFIG_SEABIOS_BOOTMENU_MESSAGE_FILE)),)
+cbfs-files-y += etc/boot-menu-message
+etc/boot-menu-message-file := $(strip $(CONFIG_SEABIOS_BOOTMENU_MESSAGE_FILE))
+etc/boot-menu-message-type := raw
+endif
+
 ifneq ($(CONFIG_SEABIOS_PS2_TIMEOUT),)
 ifneq ($(CONFIG_SEABIOS_PS2_TIMEOUT),0)
 $(call add_intermediate, seabios_ps2_timeout, $(CBFSTOOL))
@@ -255,9 +276,13 @@ else
 IPXE_SERIAL_CONSOLE = n
 endif
 
-cbfs-files-$(CONFIG_PXE_ROM)$(CONFIG_BUILD_IPXE) += pci$(CONFIG_PXE_ROM_ID).rom
-pci$(CONFIG_PXE_ROM_ID).rom-file := $(PXE_ROM_FILE)
-pci$(CONFIG_PXE_ROM_ID).rom-type := raw
+#cbfs-files-$(CONFIG_PXE_ROM)$(CONFIG_BUILD_IPXE) += pci$(CONFIG_PXE_ROM_ID).rom
+#pci$(CONFIG_PXE_ROM_ID).rom-file := $(PXE_ROM_FILE)
+#pci$(CONFIG_PXE_ROM_ID).rom-type := raw
+
+cbfs-files-$(CONFIG_PXE_ROM)$(CONFIG_BUILD_IPXE) += genroms/pxe.rom
+genroms/pxe.rom-file := $(PXE_ROM_FILE)
+genroms/pxe.rom-type := raw
 
 payloads/external/iPXE/ipxe/ipxe.rom ipxe: $(DOTCONFIG) $(PXE_CONFIG_SCRIPT)
 	$(MAKE) -C payloads/external/iPXE all \

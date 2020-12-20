@@ -1,0 +1,23 @@
+#!ipxe
+:MENU
+menu
+item --gap -- ---------------- iPXE boot menu ----------------
+item shell          ipxe shell
+item netboot.xyz    load netboot.xyz
+item boot           autoboot
+choose --default boot --timeout 3000 target && goto ${target}
+ 
+:boot
+autoboot
+goto MENU
+ 
+:shell
+shell ||
+goto MENU
+
+:netboot.xyz
+dhcp net0
+chain --autofree https://boot.netboot.xyz/ipxe/netboot.xyz.lkrn ||
+goto MENU 
+
+autoboot
